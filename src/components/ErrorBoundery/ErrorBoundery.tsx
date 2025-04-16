@@ -40,7 +40,7 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         this.props.fallback || (
           <div className="error-boundary">
-            <h1>Щось пішло не так 😟</h1>
+            <h1>Something went wrong 😟</h1>
             <details>
               <summary>Details error</summary>
               <pre>{this.state.error && this.state.error.toString()}</pre>

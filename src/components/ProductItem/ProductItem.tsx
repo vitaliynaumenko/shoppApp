@@ -27,7 +27,7 @@ const ProductItem: React.FC<IProductItemProps> = ({ ...props }) => {
   return (
     <div className={'product-list__item'}>
       <div className="product-list__item--img">
-        <Image src={src} classes={''} alt={title} />
+        <Image src={src} classes={''} alt={title} loading={'lazy'} />
       </div>
       <div className="product-list__item--title">{title}</div>
       <div className="product-list__item--category">{category}</div>
