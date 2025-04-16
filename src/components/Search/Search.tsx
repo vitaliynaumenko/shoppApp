@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import Button from '../UI/Button';
-import { AppDispatch } from '../../store/shopping';
+import Button from '../Core/Button';
+import { AppDispatch } from '../../store/shopStore';
 import { useDispatch } from 'react-redux';
 import { searchProducts } from '../../store/slices/productsSlice';
 
@@ -9,12 +9,9 @@ import { searchProducts } from '../../store/slices/productsSlice';
 const Search: React.FC = props => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const onHandleSearch = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(searchProducts(e.target.value));
-    },
-    [dispatch]
-  );
+  const onHandleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(searchProducts(e.target.value));
+  }, []);
 
   return (
     <div className="header__search">

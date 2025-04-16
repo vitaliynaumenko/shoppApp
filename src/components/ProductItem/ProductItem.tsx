@@ -1,9 +1,9 @@
 import React from 'react';
-import Image from '../UI/Image';
-import Button from '../UI/Button';
-import { AppDispatch } from '../../store/shopping';
+import Image from '../Core/Image';
+import Button from '../Core/Button';
+import { AppDispatch } from '../../store/shopStore';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../store/slices/cart';
+import { addToCart } from '../../store/slices/cartSlice';
 import { showToast } from '../../store/slices/toastSlice';
 
 interface IProductItemProps {

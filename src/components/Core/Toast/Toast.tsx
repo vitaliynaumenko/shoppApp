@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/shopping';
+import { RootState } from '../../../store/shopStore';
 import { hideToast } from '../../../store/slices/toastSlice';
 import './Toast.scss';
 
@@ -22,9 +22,7 @@ const Toast: React.FC = () => {
 
   return (
     <div className="toast">
-      <div className="toast__content">
-        {message}
-      </div>
+      <div className="toast__content">{message}</div>
     </div>
   );
 };

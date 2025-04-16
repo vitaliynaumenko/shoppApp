@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import Button from '../UI/Button';
+import Button from '../Core/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store/shopping';
+import { AppDispatch, RootState } from '../../store/shopStore';
 import Cart from '../Cart/Cart';
-import { setIsOpenCart } from '../../store/slices/cartModalSlice';
+import { setIsOpenCart } from '../../store/slices/cartSlice';
 import { FaBasketShopping } from 'react-icons/fa6';
 
 import './Header.scss';
@@ -13,14 +13,14 @@ import Search from '../Search/Search';
 const Header: React.FC = props => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { isOpenCart } = useSelector((state: RootState) => state.cartModal);
+  const { isOpenCart } = useSelector((state: RootState) => state.cart);
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const onHandleCart = useCallback(() => {
     dispatch(setIsOpenCart(true));
-  }, [dispatch]);
+  }, []);
 
   return (
     <>

@@ -3,20 +3,20 @@ import './App.css';
 import Layout from './components/Layout/Layout';
 import Header from './components/Header/Header';
 import ProductList from './components/ProductList/ProductList';
-import Loader from './components/UI/Loader/Loader';
+import Loader from './components/Core/Loader/Loader';
 import { useSelector } from 'react-redux';
-import { RootState } from './store/shopping';
+import { RootState } from './store/shopStore';
 import ErrorBoundary from './components/ErrorBoundery/ErrorBoundery';
-import Filter from './components/Filter/Filter';
-import Toast from './components/UI/Toast/Toast';
+import FilterBar from './components/FilterBar/FilterBar';
+import Toast from './components/Core/Toast/Toast';
 
 function App() {
-  const { isLoading } = useSelector((state: RootState) => state.loader);
+  const { isLoading } = useSelector((state: RootState) => state.products);
   return (
     <ErrorBoundary>
       <Layout>
         <Header />
-        <Filter />
+        <FilterBar />
         <ProductList />
         {isLoading && <Loader />}
         <Toast />

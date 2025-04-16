@@ -1,24 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import ApiServices from '../../api/apiServices';
-import { setIsLoading } from './loaderSlice';
+import ApiShop from '../../api/apiShop';
 
-export interface Product {
-  id: number;
-  price: number;
-  category: string;
-  title: string;
-  image: string;
-}
-
-interface ProductsState {
-  items: Product[];
-  allItems: Product[];
-  categories: string[];
-  selectedCategory: string;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  searchQuery: string;
-  error: string | null;
-}
+import { ProductsState } from '../../types/types';
 
 const initialState: ProductsState = {
   items: [],
@@ -28,24 +11,27 @@ const initialState: ProductsState = {
   status: 'idle',
   searchQuery: '',
   error: null,
+  isLoading: false,
 };
 
-// Асинхронні thunks для API-запитів
+// async thunks for API
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async (_, { dispatch }) => {
   try {
     dispatch(setIsLoading(true));
-    const response = await ApiServices.getInstance().getProducts();
-    return response;
+    return await ApiShop.getInstance().getProducts();
   } catch (e) {
-    console.log(e);
+    throw Error(`something went wrong ${e}`);
   } finally {
     dispatch(setIsLoading(false));
   }
 });
 
 export const fetchCategories = createAsyncThunk('products/fetchCategories', async () => {
-  const response = await ApiServices.getInstance().getCategories();
-  return response;
+  try {
+    return ApiShop.getInstance().getCategories();
+  } catch (e) {
+    throw Error(`something went wrong ${e}`);
+  }
 });
 
 export const fetchProductsByCategory = createAsyncThunk(
@@ -53,10 +39,10 @@ export const fetchProductsByCategory = createAsyncThunk(
   async (category: string, { dispatch }) => {
     try {
       dispatch(setIsLoading(true));
-      const response = await ApiServices.getInstance().getProductsByCategory(category);
+      const response = await ApiShop.getInstance().getProductsByCategory(category);
       return { products: response, category };
     } catch (e) {
-      console.log(e);
+      throw Error(`something went wrong ${e}`);
     } finally {
       dispatch(setIsLoading(false));
     }
@@ -77,7 +63,6 @@ const productsSlice = createSlice({
     },
     resetFilter: state => {
       state.selectedCategory = '';
-      // console.log('state reset',state);
       state.items = state.allItems;
     },
     searchProducts: (state, action: PayloadAction<string>) => {
@@ -92,10 +77,13 @@ const productsSlice = createSlice({
         );
       }
     },
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
   },
   extraReducers: builder => {
     builder
-      // Обробка fetchProducts
+      //  fetchProducts
       .addCase(fetchProducts.pending, state => {
         state.status = 'loading';
       })
@@ -108,12 +96,12 @@ const productsSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message || 'Помилка завантаження продуктів';
       })
-      // Обробка fetchCategories
+      //  fetchCategories
 
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categories = action.payload;
       })
-      // Обробка fetchProductsByCategory
+      //  fetchProductsByCategory
       .addCase(fetchProductsByCategory.pending, state => {
         state.status = 'loading';
       })
@@ -131,5 +119,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { filterProductsByCategory, resetFilter, searchProducts } = productsSlice.actions;
+export const { filterProductsByCategory, resetFilter, searchProducts, setIsLoading } =
+  productsSlice.actions;
 export default productsSlice.reducer;

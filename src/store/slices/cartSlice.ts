@@ -1,19 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface CartItem {
-  id: number;
-  title: string;
-  price: number;
-  src: string;
-  quantity: number;
-}
-
-interface CartState {
-  items: CartItem[];
-}
+import { CartItem, CartState } from '../../types/types';
 
 const initialState: CartState = {
   items: [],
+  isOpenCart: false,
 };
 
 const cartSlice = createSlice({
@@ -28,9 +18,11 @@ const cartSlice = createSlice({
         state.items.push({ ...action.payload, quantity: 1 });
       }
     },
-    // додатково можна додати removeFromCart, clearCart тощо
+    setIsOpenCart: (state, action: PayloadAction<boolean>) => {
+      state.isOpenCart = action.payload;
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, setIsOpenCart } = cartSlice.actions;
 export default cartSlice.reducer;
