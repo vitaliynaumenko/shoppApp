@@ -1,12 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import ApiShop from '../../api/apiShop';
+import React, { useEffect } from 'react';
 import ProductItem from '../ProductItem/ProductItem';
 
 import './ProductList.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../store/slices/productsSlice';
 import { AppDispatch } from '../../store/shopStore';
-import Loader from '../Core/Loader/Loader';
 import { IProduct } from '../../types/types';
 
 const ProductList: React.FC = props => {
